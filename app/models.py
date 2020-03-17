@@ -17,7 +17,7 @@ class Workers(db.Model):
     addresslocation=db.Column(db.String(80))
     
 
-    def __init__(self, first_name, last_name,address1,city,country,telehone_no,role, email, addresslocation):
+    def __init__(self, first_name, last_name,address1,city,country,telephone_no,role, email, addresslocation):
         self.first_name = first_name
         self.last_name = last_name
         self.address1=address1

@@ -1,0 +1,28 @@
+
+{% extends "base.html" %}
+
+{% block main %}
+  <div class="center-block">
+    <h2 class="bold">Workers</h2>
+    {% include 'flash_messages.html' %}
+
+    <div id="workercontainer">
+    {% for employee in employees %}
+     <div class="profiles"> 
+       
+        <div class="profileinfo">
+          <h4 class="bold"> {{ employee.first_name }} {{ employee.last_name }}</h4>
+          <p class="grey"> <img src="static/personicon.png" class="icon" alt="Person Icon"/><b>Address:</b> {{ employee.address1 }} </p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>City:</b> {{ employee.city}}</p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>Country</b>: {{ employee.country}}</p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>Telephone:</b> {{ employee.telephone_no}}</p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>Role:</b> {{ employee.role}}</p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>Email:</b> {{ employee.email}}</p>
+          <p class="grey"> <img src="static/location.png"  class="icon" alt="Location Icon"/><b>Location:</b> {{ employee.addresslocation}}</p>
+      </div>
+      </div>
+      {% endfor %}
+      </div>
+  </div> 
+{% endblock %}
+ 

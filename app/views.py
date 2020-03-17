@@ -47,23 +47,23 @@ def addworker():
         email=workerform.email.data
         addresslocation=workerform.addresslocation.data
         flash('Worker has been added!', 'success')
-        worker=Workers(first_name=firstname,last_name=lastname, address1= address1, city=city, country=country, telehone_no=telephone_no, role=role, email=email, addresslocation=addresslocation)
+        worker=Workers(first_name=firstname,last_name=lastname, address1= address1, city=city, country=country, telephone_no=telephone_no, role=role, email=email, addresslocation=addresslocation)
         db.session.add(worker)
         db.session.commit()
-        return redirect(url_for('profiles'))
+        return redirect(url_for('home'))
     return render_template('addworker.html', form=workerform)
 
-@app.route('/profiles')
-def profiles():
-    """Render the website's profiles page."""
-    userprofiles = UserProfile.query.all()
-    return render_template('profiles.html', userprofiles=userprofiles)
+@app.route('/workers')
+def workers():
+    """Render the website's workers page."""
+    employees = Workers.query.all()
+    return render_template('workers.html', employees=employees)
 
-@app.route('/profile/<userid>')
-def loaduserprofile(userid):
-    """Render an individual user profile by the specific user's id."""
-    userprofile =UserProfile.query.filter_by(id=int(userid)).first()
-    return render_template('loaduserprofile.html', userprofile=userprofile)
+# @app.route('/profile/<userid>')
+# def loaduserprofile(userid):
+#     """Render an individual user profile by the specific user's id."""
+#     userprofile =UserProfile.query.filter_by(id=int(userid)).first()
+#     return render_template('loaduserprofile.html', userprofile=userprofile)
 
 
 @app.after_request
