@@ -1,0 +1,114 @@
+body {
+    padding-top: 5rem;
+     background-color: rgb(207, 238, 248);
+
+}
+
+#form{
+    background-color: white;
+    border-top: 3px solid blue ;
+    border-radius: 10px;
+    padding:45px;
+    padding-right: 250px;
+}
+
+#addprofilebtn{
+    background-color: rgb(155, 255, 88);
+    font-weight: bold;
+    border-color: rgb(155, 255, 88);
+}
+
+.profiles{
+    background-color: white;
+    border-radius: 10px;
+    border-top: 3px solid blue ;
+    display: flex ;
+    align-items: center;
+    width: min-content;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.profilepic{
+    height:150px;
+    width:150px;
+}
+
+.profileinfo{
+    margin-right: 100px;
+    width: 250px;
+}
+
+.icon{
+    height: 25px;
+    width: 25px;
+}
+
+.viewbtn{
+    background-color: rgb(155, 255, 88);
+    font-weight: bold;
+    border-color: rgb(155, 255, 88);
+    
+}
+
+.pic{
+    margin-right: 40px;
+}
+
+.bold{
+    font-weight: bold;
+
+}
+
+.grey{
+    color:grey;
+}
+
+#soloprofile{
+    display: grid;
+    grid-template-rows: auto auto auto;
+    background-color: white;
+    border-radius: 10px;
+    border-top: 3px solid blue ;
+    padding: 30px;
+    width: 700px;
+}
+
+#profilepicture{
+    height: 250px;
+    width: 250px;
+    margin-right: 40px;
+    margin-bottom: 30px;
+}
+
+#user{
+    display:flex;
+    align-items: center;
+
+}
+
+#btns{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#send{
+    margin-right: 25px;
+    background-color: rgb(155, 255, 88);
+    font-weight: bold;
+    border-color: rgb(155, 255, 88);
+    width: 200px;
+
+}
+
+#follow{
+    margin-left:25px ;
+    width: 200px;
+    font-weight: bold;
+
+}
+
+#bio{
+    width: 500px;
+}
