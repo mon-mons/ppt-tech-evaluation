@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% block main %}
-{% include 'flash_messages.html' %}
-<h1 class="page-header">Weather Forecaster</h1>
-
-<div id = "forecasts">
-    {{ #date, temp, wind speed, humidity, main, description}}
-    {% for dayforecast in fivedayforecasts %}
-        {{dayforecast}}
-    {% endfor %}
-</div>
-
+    <h2>Enter Location to get Weather Forecast</h2>
+    {% include 'flash_messages.html' %}
+    <div id= "form">
+    <form action="{{ url_for('home') }}" method="POST">
+      {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.city.label }} {{ form.city(class="form-control") }}
+        </div>
+        <button id="addprofilebtn" type="submit" class="btn btn-primary">Get Forecast</button>
+    </form>
+    </div>
 {% endblock %}

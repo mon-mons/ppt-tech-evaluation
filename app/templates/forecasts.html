@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<h1 class="page-header">Weather Forecaster</h1>
+
+{% include 'flash_messages.html' %}
+<div id = "forecasts">
+    {% for i in range(5) %}
+        <h4 class="daycount">Day {{ i+1 }}: {{ dates[i] }}</h4>
+        <div class="dayforecast">
+            {% for threehourforecast in fivedayforecasts[i] %}
+            <div class="threehourforecast">
+                <div class="weathericoncontainer">
+                    <img class = "weathericon" src="../static/{{ threehourforecast[4] }}.png" alt="{{ threehourforecast[4] }}">
+                </div>
+                <p class="time"><b>Time:</b> {{ threehourforecast[0][10:16] }} </p>
+                <p class="temperature"><b>Temperature:</b> {{ threehourforecast[1] }} Degrees Celsius </p>
+                <p class="windspeed"><b>Wind Speed:</b> {{ threehourforecast[2] }} Knots</p>
+                <p class="humidity"><b>Humidity: </b> {{ threehourforecast[3] }}% </p>
+                <p class="mainweather"><b>General Weather:</b> {{ threehourforecast[4] }} </p>
+                <p class="weatherdescription"><b>Desciption:</b> {{ threehourforecast[5] }} </p>
+            </div>
+            
+        {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+<form id="sendemails" action="{{ url_for('home') }}" method="POST">
+      <button id="addprofilebtn" type="submit" class="btn btn-primary">Send Emails to Employees</button>
+</form>
+
+{% endblock %}

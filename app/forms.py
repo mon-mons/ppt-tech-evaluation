@@ -12,6 +12,10 @@ class WorkerForm(FlaskForm):
     telephone_no = StringField('Telephone Number', validators=[DataRequired()])
     role= StringField('Role', validators=[DataRequired()])
     email= StringField('Email', validators=[DataRequired(), Email()])
-    addresslocation= StringField('Location', validators=[DataRequired()])
+    addresslocation= StringField('Location (Kingston or Montego Bay)', validators=[DataRequired()])
+
+class HomeForm(FlaskForm):
+    city = StringField('City (Kingston or Montego Bay)', validators=[DataRequired()])
+    
    
    

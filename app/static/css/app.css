@@ -120,3 +120,47 @@ body {
 #bio{
     width: 500px;
 }
+
+#forecasts{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.dayforecast{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background-color: rgb(236, 230, 230);
+    border-radius: 10px;
+    border: 3px solid black ;
+    padding: 30px;
+    margin-bottom: 50px;
+    width: auto;
+}
+
+.threehourforecast {
+    background-color: white;
+    border-radius: 10px;
+    border-top: 3px solid blue ;
+    padding: 10px;
+    width: 250px;
+    font-size: smaller;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.weathericon {
+    height: 150px;
+    width: 150px;
+}
+
+.weathericoncontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sendemails{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

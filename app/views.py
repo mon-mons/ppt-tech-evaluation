@@ -7,21 +7,62 @@ This file creates your application.
  
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import WorkerForm
+from app.forms import HomeForm
 from app.models import Workers
 from app import db, app
 from werkzeug.utils import secure_filename
 import os 
 import requests
+from app import emailconfig
+import smtplib
 
 ###
 # Routing for your application.
 ###
 
-@app.route('/')
+@app.route('/', methods = ['GET', 'POST'])
 def home():
     """Render website's home page."""
+    homeform = HomeForm()
+    if request.method=='POST' and homeform.validate_on_submit():
+        city=homeform.city.data
+        if (city.lower() == "kingston") or (city.lower() == "montego bay"):
+            flash('Weather Forecasts for ' + city, 'success')
+            return forecasts(city)
+        else:
+            flash('You entered an invalid city!', 'danger')
+    return render_template('home.html', form=homeform)
 
-    api_request_url = 'http://api.openweathermap.org/data/2.5/forecast?q=Kingston,JM&appid=4b1cca48f842d5aa8ff21cd02fad5ae8&units=metric'
+@app.route('/forecasts/<city>', methods = ['GET', 'POST'])
+def forecasts(city):
+    """Render website's forecasts page."""
+
+    # if request.method=='GET':
+    #     separator = '+'
+    #     city = separator.join(city.split())
+    #     api_request_url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + ',JM&appid=4b1cca48f842d5aa8ff21cd02fad5ae8&units=metric'
+    #     response = requests.get(api_request_url)
+    #     if response.status_code == 200:
+    #         #get weather details
+    #         #date, temp, wind speed, humidity, main, description
+    #         weather_details = response.json()
+    #         tomoForecast = weather_details['list'][0]['weather'][0]['main']
+            
+    #         workers = Workers.query.filter_by(addresslocation=city).first()
+    #         try:
+    #             server = smtplib.SMTP('smtp.gmail.com:587')
+    #             server.ehlo()
+    #             server.starttls()
+    #             server.login(emailconfig.EMAIL_ADDRESS, emailconfig.PASSWORD)
+    #             for worker in workers:
+    #                 if tomoForecast.lower() == "rain":
+
+    #                     if worker.role.lower() == "it":
+    #                         msg = ""
+
+    separator = '+'
+    city = separator.join(city.split())
+    api_request_url = 'http://api.openweathermap.org/data/2.5/forecast?q=' + city + ',JM&appid=4b1cca48f842d5aa8ff21cd02fad5ae8&units=metric'
     response = requests.get(api_request_url)
 
     if response.status_code == 200:
@@ -44,14 +85,20 @@ def home():
         day3 = forecasts[16:24]
         day4 = forecasts[24:32] 
         day5 = forecasts[32:40]
-        fivedayforecasts = [day1, day2, day3, day4, day5]                           
+        fivedayforecasts = [day1, day2, day3, day4, day5]
 
-        return render_template('home.html', test=fivedayforecasts)
-    #else:
+        #fetching the dates
+        dates = []
+        for day in fivedayforecasts:
+            dates.append(day[0][0][0:10])
+
+        return render_template('forecasts.html', fivedayforecasts=fivedayforecasts, dates=dates, location=city)
+    else:
         #return some sort of error message here
-
-    return render_template('home.html', test='Fail!!!')
-
+        flash('There was an error', 'danger')
+        
+    
+    return render_template('home.html')
 
 @app.route('/about/')
 def about():
@@ -77,11 +124,16 @@ def addworker():
         role=workerform.role.data
         email=workerform.email.data
         addresslocation=workerform.addresslocation.data
-        flash('Worker has been added!', 'success')
-        worker=Workers(first_name=firstname,last_name=lastname, address1= address1, city=city, country=country, telephone_no=telephone_no, role=role, email=email, addresslocation=addresslocation)
-        db.session.add(worker)
-        db.session.commit()
-        return redirect(url_for('home'))
+
+        if (addresslocation.lower() == "kingston") or (addresslocation.lower() == "montego bay"):
+            flash('Worker has been added!', 'success')
+            worker=Workers(first_name=firstname,last_name=lastname, address1= address1, city=city, country=country, telephone_no=telephone_no, role=role, email=email, addresslocation=addresslocation)
+            db.session.add(worker)
+            db.session.commit()
+            return redirect(url_for('home'))
+        else:
+            flash('You entered an invalid city!', 'danger')
+
     return render_template('addworker.html', form=workerform)
 
 @app.route('/workers')
