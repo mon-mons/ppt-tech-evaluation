@@ -11,6 +11,7 @@ from app.models import Workers
 from app import db, app
 from werkzeug.utils import secure_filename
 import os 
+import requests
 
 ###
 # Routing for your application.
@@ -19,7 +20,37 @@ import os
 @app.route('/')
 def home():
     """Render website's home page."""
-    return render_template('home.html')
+
+    api_request_url = 'http://api.openweathermap.org/data/2.5/forecast?q=Kingston,JM&appid=4b1cca48f842d5aa8ff21cd02fad5ae8&units=metric'
+    response = requests.get(api_request_url)
+
+    if response.status_code == 200:
+        #get weather details
+        #date, temp, wind speed, humidity, main, description
+        weather_details = response.json()
+        forecasts = []
+        for item in weather_details['list']:
+            date = item['dt_txt']
+            temperature = item['main']['temp']
+            windspeed = item['wind']['speed']
+            humidity = item['main']['humidity']
+            mainweather = item['weather'][0]['main']
+            weatherdescription = item['weather'][0]['description']
+            forecast = [date, temperature, windspeed, humidity, mainweather, weatherdescription]
+            forecasts.append(forecast)
+        
+        day1 = forecasts[0:8]
+        day2 = forecasts[8:16]
+        day3 = forecasts[16:24]
+        day4 = forecasts[24:32] 
+        day5 = forecasts[32:40]
+        fivedayforecasts = [day1, day2, day3, day4, day5]                           
+
+        return render_template('home.html', test=fivedayforecasts)
+    #else:
+        #return some sort of error message here
+
+    return render_template('home.html', test='Fail!!!')
 
 
 @app.route('/about/')
@@ -58,12 +89,6 @@ def workers():
     """Render the website's workers page."""
     employees = Workers.query.all()
     return render_template('workers.html', employees=employees)
-
-# @app.route('/profile/<userid>')
-# def loaduserprofile(userid):
-#     """Render an individual user profile by the specific user's id."""
-#     userprofile =UserProfile.query.filter_by(id=int(userid)).first()
-#     return render_template('loaduserprofile.html', userprofile=userprofile)
 
 
 @app.after_request

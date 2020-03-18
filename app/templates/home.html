@@ -3,5 +3,12 @@
 {% block main %}
 {% include 'flash_messages.html' %}
 <h1 class="page-header">Weather Forecaster</h1>
-<p class="lead">This is Project 1 for INFO3180.</p>
+
+<div id = "forecasts">
+    {{ #date, temp, wind speed, humidity, main, description}}
+    {% for dayforecast in fivedayforecasts %}
+        {{dayforecast}}
+    {% endfor %}
+</div>
+
 {% endblock %}
